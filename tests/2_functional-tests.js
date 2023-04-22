@@ -1,105 +1,115 @@
-/*
- *
- *
- *       FILL IN EACH FUNCTIONAL TEST BELOW COMPLETELY
- *       -----[Keep the tests in the same order!]----
- *       (if additional are added, keep them at the very end!)
- */
-
-const chai = require("chai");
+const chai = require('chai');
+const chaiHttp = require('chai-http');
 const assert = chai.assert;
-const lodash = require("lodash");
+const server = require('../server.js');
 
-let translator;
-let spanWrapper;
-suite("Functional Tests", () => {
-  suiteSetup(() => {
-    // DOM already mocked -- load translator then run tests
-    translator = require("../public/translator.js").translate;
-    spanWrapper = require("../public/translator.js").spanWrapper;
+chai.use(chaiHttp);
+
+let Translator = require('../components/translator.js');
+
+suite('Functional Tests', () => {
+  
+  test("valid text and locale fields", function(done){
+    chai
+      .request(server)
+      .post("/api/translate")
+      .send({
+        text: "Mangoes are my favorite fruit.",
+        locale: "american-to-british"
+      })
+      .end(function(err, res){
+        assert.equal(res.status, 200);
+        assert.equal(res.type, 'application/json');
+        assert.property(res.body, 'text');
+        assert.equal(res.body.text, "Mangoes are my favorite fruit.");
+        assert.property(res.body, "translation");
+        assert.equal(res.body.translation, 'Mangoes are my <span class="highlight">favourite</span> fruit.');
+        done();
+      });
   });
 
-  suite("Function ____()", () => {
-    /* 
-      The translated sentence is appended to the `translated-sentence` `div`
-      and the translated words or terms are wrapped in 
-      `<span class="highlight">...</span>` tags when the "Translate" button is pressed.
-    */
-    test("Translation appended to the `translated-sentence` `div`", done => {
-      const originalText = document.getElementById("text-input").textContent
-      const originalDialect = "american-to-british"
-
-      const translatedText = translator(originalText,originalDialect) 
-      const spanWrapTranslated = spanWrapper(originalText,translatedText)
-
-      //simulate click on #translate-btn
-      document.getElementById("translate-btn").click();
-
-      let translatedDivHTML = document.getElementById("translated-sentence")
-        .children["0"].innerHTML;
-
-        console.log("Functional test 01. :",translatedDivHTML)
-      assert.equal(translatedDivHTML.toString(),spanWrapTranslated.toString())
-
-      done();
-    });
-
-    /* 
-      If there are no words or terms that need to be translated,
-      the message 'Everything looks good to me!' is appended to the
-      `translated-sentence` `div` when the "Translate" button is pressed.
-    */
-    test("'Everything looks good to me!' message appended to the `translated-sentence` `div`", done => {
-      //simulate click on #clear 
-      document.getElementById("clear-btn").click();
-      
-      document.getElementById("text-input").textContent = "Everything"
-      const originalText = document.getElementById("text-input").textContent
-      const originalDialect = "american-to-british"
-
-      const translatedText = translator(originalText,originalDialect) 
-      
-
-      console.log("Original Text : ",originalText)
-
-      //simulate click on £translate-btn
-      document.getElementById("translate-btn").click();
-
-      let translatedDivHTML = document.getElementById("translated-sentence")
-        .children["0"].innerHTML
-      
-      assert.equal(translatedDivHTML,translatedText)
-
-      done();
-    });
-
-    /* 
-      If the text area is empty when the "Translation" button is
-      pressed, append the message 'Error: No text to translate.' to 
-      the `error-msg` `div`.
-    */
-    test("'Error: No text to translate.' message appended to the `translated-sentence` `div`", done => {
-      document.getElementById("clear-btn").click();
-      document.getElementById("translate-btn").click();
-
-      assert.equal(document.getElementById("error-msg").innerHTML,"Error: No text to translate.")
-      done();
-    });
+  test("valid text and invalid locale fields", function(done){
+    chai
+      .request(server)
+      .post("/api/translate")
+      .send({
+        text: "Mangoes are my favorite fruit.",
+        locale: "french-to-british"
+      })
+      .end(function(err, res){
+        //assert.equal(res.status, 200);
+        assert.equal(res.type, 'application/json');
+        assert.property(res.body, 'error');
+        assert.equal(res.body.error, "Invalid value for locale field");
+        done();
+      });
   });
 
-  suite("Function ____()", () => {
-    /* 
-      The text area and both the `translated-sentence` and `error-msg`
-      `divs` are cleared when the "Clear" button is pressed.
-    */
-    test("Text area, `translated-sentence`, and `error-msg` are cleared", done => {
-      document.getElementById("clear-btn").click();
+  test("missing text fields", function(done){
+    chai
+      .request(server)
+      .post("/api/translate")
+      .send({
+        locale: "french-to-british"
+      })
+      .end(function(err, res){
+        //assert.equal(res.status, 200);
+        assert.equal(res.type, 'application/json');
+        assert.property(res.body, 'error');
+        assert.equal(res.body.error, "Required field(s) missing");
+        done();
+      });
+  });
 
-      assert.equal(document.getElementById("text-input").innerHTML,"")
-      assert.equal(document.getElementById("translated-sentence").innerHTML,"")
-      assert.equal(document.getElementById("error-msg").innerHTML,"")
+  test("missing locale fields", function(done){
+    chai
+      .request(server)
+      .post("/api/translate")
+      .send({
+        text: "Mangoes are my favorite fruit."
+      })
+      .end(function(err, res){
+        //assert.equal(res.status, 200);
+        assert.equal(res.type, 'application/json');
+        assert.property(res.body, 'error');
+        assert.equal(res.body.error, "Required field(s) missing");
+        done();
+      });
+  });
 
-      done();
-    });
+  test("empty text file", function(done){
+    chai
+      .request(server)
+      .post("/api/translate")
+      .send({
+        text: "",
+        locale: "french-to-british"
+      })
+      .end(function(err, res){
+        //assert.equal(res.status, 200);
+        assert.equal(res.type, 'application/json');
+        assert.property(res.body, 'error');
+        assert.equal(res.body.error, "No text to translate");
+        done();
+      });
+  });
+
+  test("no required translation", function(done){
+    chai
+      .request(server)
+      .post("/api/translate")
+      .send({
+        text: "No translation required",
+        locale: "american-to-british"
+      })
+      .end(function(err, res){
+        assert.equal(res.status, 200);
+        assert.equal(res.type, 'application/json');
+        assert.property(res.body, 'text');
+        assert.equal(res.body.text, "No translation required");
+        assert.property(res.body, "translation");
+        assert.equal(res.body.translation, 'Everything looks good to me!');
+        done();
+      });
   });
 });

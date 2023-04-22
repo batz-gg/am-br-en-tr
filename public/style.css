@@ -1,120 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway:wght@500&display=swap");
-
-* {
-  margin: 0px;
-  padding: 0px;
-}
-li{
-  text-align:justify;
-}
-
-body {
-  padding: 10px;
-}
-h1 {
-  font-family: "Raleway", sans-serif;
-  font-size: 2em;
-}
-h3 {
-  margin-top:30px;
-  font-family: "Raleway", sans-serif;
-  font-size: 20px;
-}
-code {
-  background: #eeeeee;
-  margin: 10px 10px 10px 10px;
-}
-.main-container {
-  display: flex;
-}
-.description-container {
-  font-family: "Open Sans";
-  font-size: 14px;
-  width: 35%;
-  padding: 3%;
-}
-.ui-container {
-  font-family: "Open Sans";
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-evenly;
-  width: 65%;
-  padding: 3%;
-}
-
-textarea {
- 
-  width: 97%;
-  margin: 25px 0 8px 0;
-  font-family: "Raleway", sans-serif;
-  letter-spacing: 2px;
-  padding:5px;
-  font-size: 1em;
-  text-align: left;
-  resize: none;
-}
-input[type="button"],
-input[type="submit"],
-button {
-  margin-top: 15px;
-  display: block;
-  color: white;
-  box-shadow: 2px 4px 10px 0.2px #dddddd;
-  font-family: "Raleway";
-  font-size: 18px;
-  letter-spacing: 2px;
-  background-color: cornflowerblue;
-  border-color: #f0f0f0;
-  border: 0.2px solid #f0f0f0;
-  border-radius: 5px;
-  margin-left: auto;
-  margin-right: auto;
-  height: 40px;
-  width: 80%;
-  text-align: center;
-}
-input[type="button"]:hover,
-input[type="submit"]:hover,
-button:hover {
-  opacity: 0.7;
-}
-#user-stories {
-  font-size: 1.2em;
-}
-
-
-input[type="text"] {
-  margin-top: 22px;
-  font-family: "Raleway", sans-serif;
-  font-size: 1em;
-  border: 0px;
-  width: 80%;
-  padding: 10px;
-  height: 2em;
-  text-align: left;
-  border-bottom: 1px solid #aaaaaa;
-}
-
-
-
-
-/*original*/
 code {
   background: #d0d0d5;
 }
 
-.form-container {
-  width: 48%;
+.container {
   display: flex;
   flex-direction: column;
 }
 
-/* .form-container {
+.form-container {
   max-width: 95%;
-} */
+}
 
-
+textarea {
+  width: 100%;
+}
 
 #user-stories {
   font-size: 1.2em;
@@ -129,7 +28,7 @@ input[type="button"] {
 }
 
 #output-container {
-  width: 48%;
+  width: 80%;
   display: flex;
   flex-direction: column;
 }
@@ -156,16 +55,18 @@ input[type="button"] {
   color: green;
 }
 
-
+#text-input {
+  padding: 10px;
+}
 
 @media (min-width: 800px) {
   .container {
     flex-direction: row;
   }
 
-  /* .form-container {
+  .form-container {
     align-self: flex-end;
-  } */
+  }
 
   #output-container {
     flex-direction: row;

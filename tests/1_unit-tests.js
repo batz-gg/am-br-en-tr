@@ -1,230 +1,205 @@
-/*
- *
- *
- *       FILL IN EACH UNIT TEST BELOW COMPLETELY
- *       -----[Keep the tests in the same order!]----
- *       (if additional are added, keep them at the very end!)
- */
-
-const chai = require("chai");
+const chai = require('chai');
 const assert = chai.assert;
 
-const { JSDOM } = require("jsdom");
-let Translator;
-let lodash ;
+const Translator = require('../components/translator.js');
 
-suite("Unit Tests", () => {
-  suiteSetup(() => {
-    // Mock the DOM for testing and load Translator
-    return JSDOM.fromFile("./views/index.html").then(dom => {
-      global.window = dom.window;
-      global.document = dom.window.document;
-      lodash = require("lodash");
-      Translator = require("../public/translator.js").translate;
+const translator = new Translator();
+
+suite('Unit Tests', () => {
+  suite('basic translation', () => {
+    test('translation simple word american to british', function(done){
+      const toTranslate = "Mangoes are my favorite fruit.";
+      const translation = 'Mangoes are my favourite fruit.';
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation simple word american to british', function(done){
+      const toTranslate = "I ate yogurt for breakfast.";
+      const translation = 'I ate yoghurt for breakfast.';
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation simple word american to british', function(done){
+      const toTranslate = "We had a party at my friend's condo.";
+      const translation = "We had a party at my friend's flat.";
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation simple word american to british', function(done){
+      const toTranslate = "Can you toss this in the trashcan for me?";
+      const translation = 'Can you toss this in the bin for me?';
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation 2 words american to british', function(done){
+      const toTranslate = "The parking lot was full.";
+      const translation = 'The car park was full.';
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation several words american to british', function(done){
+      const toTranslate = "Like a high tech Rube Goldberg machine.";
+      const translation = 'Like a high tech Heath Robinson device.';
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation several words american to british', function(done){
+      const toTranslate = "To play hooky means to skip class or work.";
+      const translation = 'To bunk off means to skip class or work.';
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation title american to british', function(done){
+      const toTranslate = "No Mr. Bond, I expect you to die.";
+      const translation = 'No Mr Bond, I expect you to die.';
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation title american to british', function(done){
+      const toTranslate = "Dr. Grosh will see you now.";
+      const translation = 'Dr Grosh will see you now.';
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation time american to british', function(done){
+      const toTranslate = "Lunch is at 12:15 today.";
+      const translation = 'Lunch is at 12.15 today.';
+      const mode = "american-to-british";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation 1 word british to american', function(done){
+      const toTranslate = "We watched the footie match for a while.";
+      const translation = 'We watched the soccer match for a while.';
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation 1 word british to american', function(done){
+      const toTranslate = "Paracetamol takes up to an hour to work.";
+      const translation = 'Tylenol takes up to an hour to work.';
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation 1 word american to british', function(done){
+      const toTranslate = "First, caramelise the onions.";
+      const translation = 'First, caramelize the onions.';
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation 2x1 word american to british', function(done){
+      const toTranslate = "I spent the bank holiday at the funfair.";
+      const translation = 'I spent the public holiday at the carnival.';
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation 2x1 word american to british', function(done){
+      const toTranslate = "I had a bicky then went to the chippy.";
+      const translation = 'I had a cookie then went to the fish-and-chip shop.';
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation several words american to british', function(done){
+      const toTranslate = "I've just got bits and bobs in my bum bag.";
+      const translation = "I've just got odds and ends in my fanny pack.";
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation 2 words american to british', function(done){
+      const toTranslate = "The car boot sale at Boxted Airfield was called off.";
+      const translation = 'The swap meet at Boxted Airfield was called off.';
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation title american to british', function(done){
+      const toTranslate = "Have you met Mrs Kalyani?";
+      const translation = 'Have you met Mrs. Kalyani?';
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation title british to american', function(done){
+      const toTranslate = "Prof Joyner of King's College, London.";
+      const translation = "Prof. Joyner of King's College, London.";
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
+    });
+
+    test('translation time british to american', function(done){
+      const toTranslate = "Tea time is usually around 4 or 4.30.";
+      const translation = 'Tea time is usually around 4 or 4:30.';
+      const mode = "british-to-american";
+      assert.equal(translator.translate(toTranslate, mode), translation);
+      done();
     });
   });
 
-  suite("Function ____()", () => {
-    suite("American to British English", () => {
-      test("Mangoes are my favorite fruit. --> Mangoes are my favourite fruit.", done => {
-        const input = "Mangoes are my favorite fruit.";
-        const output = "Mangoes are my favourite fruit.";
-
-        let funcOutput = Translator(input, "american-to-british");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("I ate yogurt for breakfast. --> I ate yoghurt for breakfast.", done => {
-        const input = "I ate yogurt for breakfast.";
-        const output = "I ate yoghurt for breakfast.";
-
-        let funcOutput = Translator(input, "american-to-british");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("We had a party at my friend's condo. --> We had a party at my friend's flat.", done => {
-        const input = "We had a party at my friend's condo.";
-        const output = "We had a party at my friend's flat.";
-        let funcOutput = Translator(input, "american-to-british");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("Can you toss this in the trashcan for me? --> Can you toss this in the bin for me?", done => {
-        const input = "Can you toss this in the trashcan for me?";
-        const output = "Can you toss this in the bin for me?";
-
-        let funcOutput = Translator(input, "american-to-british");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("The parking lot was full. --> The car park was full.", done => {
-        const input = "The parking lot was full.";
-        const output = "The car park was full.";
-
-        let funcOutput = Translator(input, "american-to-british");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("Like a high tech Rube Goldberg machine. --> Like a high tech Heath Robinson device.", done => {
-        const input = "Like a high tech Rube Goldberg machine.";
-        const output = "Like a high tech Heath Robinson device.";
-
-        let funcOutput = Translator(input, "american-to-british");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("To play hooky means to skip class or work. --> To bunk off means to skip class or work.", done => {
-        const input = "To play hooky means to skip class or work.";
-        const output = "To bunk off means to skip class or work.";
-
-        let funcOutput = Translator(input, "american-to-british");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("No Mr. Bond, I expect you to die. --> No Mr Bond, I expect you to die. ", done => {
-        const input = "No Mr. Bond, I expect you to die.";
-        const output = "No Mr Bond, I expect you to die.";
-
-        let funcOutput = Translator(input, "american-to-british",lodash);
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("Dr. Grosh will see you now. --> Dr Grosh will see you now. ", done => {
-        const input = "Dr. Grosh will see you now.";
-        const output = "Dr Grosh will see you now.";
-
-        let funcOutput = Translator(input, "american-to-british",lodash);
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("Lunch is at 12:15 today. --> Lunch is at 12.15 today.", done => {
-        const input = "Lunch is at 12:15 today.";
-        const output = "Lunch is at 12.15 today.";
-
-        let funcOutput = Translator(input, "american-to-british");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
+  suite('Translation with highlights', () => {
+    test('highlight translation of 1 word american to british', function(done){
+      const toTranslate = "Mangoes are my favorite fruit."
+      const translation = 'Mangoes are my <span class="highlight">favourite</span> fruit.'
+      const mode = "american-to-british";
+      assert.equal(translator.translateAndHighlight(toTranslate, mode), translation);
+      done();
     });
 
-    suite("British to American English", () => {
-      test("We watched the footie match for a while. --> We watched the soccer match for a while.", done => {
-        const input = "We watched the footie match for a while.";
-        const output = "We watched the soccer match for a while.";
+    test('highlight translation of 1 word american to british 2', function(done){
+      const toTranslate = "I ate yogurt for breakfast."
+      const translation = 'I ate <span class="highlight">yoghurt</span> for breakfast.'
+      const mode = "american-to-british";
+      assert.equal(translator.translateAndHighlight(toTranslate, mode), translation);
+      done();
+    });
 
-        let funcOutput = Translator(input, "british-to-american");
-        assert.equal(output, funcOutput);
+    test('highlight translation of 1 word british to american', function(done){
+      const toTranslate = "We watched the footie match for a while."
+      const translation = 'We watched the <span class="highlight">soccer</span> match for a while.'
+      const mode = "british-to-american";
+      assert.equal(translator.translateAndHighlight(toTranslate, mode), translation);
+      done();
+    });
 
-        done();
-      });
-
-      test("Paracetamol takes up to an hour to work. --> Tylenol takes up to an hour to work.", done => {
-        const input = "Paracetamol takes up to an hour to work.";
-        const output = "Tylenol takes up to an hour to work.";
-
-        let funcOutput = Translator(input, "british-to-american");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("First, caramelise the onions. --> First, caramelize the onions.", done => {
-        const input = "First, caramelise the onions.";
-        const output = "First, caramelize the onions.";
-
-        let funcOutput = Translator(input, "british-to-american");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("I spent the bank holiday at the funfair. --> I spent the public holiday at the carnival.", done => {
-        const input = "I spent the bank holiday at the funfair.";
-        const output = "I spent the public holiday at the carnival.";
-
-        let funcOutput = Translator(input, "british-to-american");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("I had a bicky then went to the chippy. --> I had a cookie then went to the fish-and-chip shop.", done => {
-        const input = "I had a bicky then went to the chippy.";
-        const output = "I had a cookie then went to the fish-and-chip shop.";
-
-        let funcOutput = Translator(input, "british-to-american");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("I've just got bits and bobs in my bum bag. --> I've just got odds and ends in my fanny pack.", done => {
-        const input = "I've just got bits and bobs in my bum bag.";
-        const output = "I've just got odds and ends in my fanny pack.";
-
-        let funcOutput = Translator(input, "british-to-american");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("The car boot sale at Boxted Airfield was called off. --> The swap meet at Boxted Airfield was called off.", done => {
-        const input = "The car boot sale at Boxted Airfield was called off.";
-        const output = "The swap meet at Boxted Airfield was called off.";
-
-        let funcOutput = Translator(input, "british-to-american");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("Have you met Mrs Kalyani? --> Have you met Mrs. Kalyani?", done => {
-        const input = "Have you met Mrs Kalyani?";
-        const output = "Have you met Mrs. Kalyani?";
-
-        let funcOutput = Translator(input, "british-to-american",lodash);
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("Prof Joyner of King's College, London. --> Prof. Joyner of King's College, London.", done => {
-        const input = "Prof Joyner of King's College, London.";
-        const output = "Prof. Joyner of King's College, London.";
-
-        let funcOutput = Translator(input, "british-to-american",lodash);
-        assert.equal(output, funcOutput);
-
-        done();
-      });
-
-      test("Tea time is usually around 4 or 4.30. --> Tea time is usually around 4 or 4:30.", done => {
-        const input = "Lunch is at 12:15 today.";
-        const output = "Lunch is at 12.15 today.";
-        let funcOutput = Translator(input, "british-to-american");
-        assert.equal(output, funcOutput);
-
-        done();
-      });
+    test('highlight translation of 1 word british to american 2', function(done){
+      const toTranslate = "Paracetamol takes up to an hour to work."
+      const translation = '<span class="highlight">Tylenol</span> takes up to an hour to work.'
+      const mode = "british-to-american";
+      assert.equal(translator.translateAndHighlight(toTranslate, mode), translation);
+      done();
     });
   });
+
 });
